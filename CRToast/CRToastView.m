@@ -13,6 +13,9 @@
 static CGFloat const kCRStatusBarViewNoImageLeftContentInset = 10;
 static CGFloat const kCRStatusBarViewNoImageRightContentInset = 10;
 
+static CGFloat const kCRStatusBarNormalHeight = 20.0;
+static CGFloat const kCRStatusBarExpandedHeight = 44.0;
+
 // UIApplication's statusBarFrame will return a height for the status bar that includes
 // a 5 pixel vertical padding. This frame height is inappropriate to use when centering content
 // vertically under the status bar. This adjustment is used to correct the frame height when centering
@@ -132,6 +135,11 @@ static CGFloat CRCenterXForActivityIndicatorWithAlignment(CRToastAccessoryViewAl
     CGFloat preferredPadding = self.toast.preferredPadding;
     
     CGFloat statusBarYOffset = self.toast.displayUnderStatusBar ? (CRGetStatusBarHeight()+CRStatusBarViewUnderStatusBarYOffsetAdjustment) : 0;
+
+    if (CRGetStatusBarHeight() > kCRStatusBarNormalHeight) {
+        statusBarYOffset += kCRStatusBarExpandedHeight - kCRStatusBarNormalHeight;
+    }
+
     contentFrame.size.height = CGRectGetHeight(contentFrame) - statusBarYOffset;
     
     self.backgroundView.frame = self.bounds;
